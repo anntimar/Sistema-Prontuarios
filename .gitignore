@@ -1,5 +1,15 @@
-﻿.env
+.env
+.env.*
+!.env.example
 .venv/
 __pycache__/
 hospital.db
 .idea/
+frontend/node_modules/
+frontend/dist/
+frontend/tsconfig.tsbuildinfo
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+frontend/*.log
+vite*.log
