@@ -162,9 +162,6 @@ Depois acesse:
 
 Para deploy e checklist de producao, consulte `docs/DEPLOY.md`.
 
-Para regras de negocio e processos usados na modelagem BPMN, consulte
-`docs/MODELAGEM_BPMN.md`.
-
 ## GitHub Pages
 
 O frontend pode ser publicado no GitHub Pages em modo standalone, sem backend e

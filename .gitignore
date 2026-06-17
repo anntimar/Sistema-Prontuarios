@@ -16,3 +16,5 @@ frontend/.env.*
 !frontend/.env.pages
 frontend/*.log
 vite*.log
+docs/MODELAGEM_BPMN.md
+docs/MODELAGEM_BPMN.docx
