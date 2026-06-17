@@ -1,13 +1,13 @@
+import { ApiError } from "./apiError";
+import {
+  getStandaloneApiLabel,
+  isStandaloneMode,
+  localApiDownload,
+  localApiRequest,
+} from "./localApi";
+
 const API_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
-
-export class ApiError extends Error {
-  status: number;
-
-  constructor(message: string, status: number) {
-    super(message);
-    this.status = status;
-  }
-}
+export { ApiError };
 
 type RequestOptions = {
   token?: string;
@@ -20,6 +20,10 @@ export async function apiRequest<T>(
   path: string,
   { token, body, form, method = "GET" }: RequestOptions = {},
 ): Promise<T> {
+  if (isStandaloneMode) {
+    return localApiRequest<T>(path, { token, body, form, method });
+  }
+
   const headers = new Headers();
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
@@ -49,6 +53,10 @@ export async function apiDownload(
   path: string,
   { token }: { token?: string } = {},
 ): Promise<Blob> {
+  if (isStandaloneMode) {
+    return localApiDownload(path, { token });
+  }
+
   const headers = new Headers();
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
@@ -67,5 +75,8 @@ export async function apiDownload(
 }
 
 export function getApiUrl() {
+  if (isStandaloneMode) {
+    return getStandaloneApiLabel();
+  }
   return API_URL;
 }

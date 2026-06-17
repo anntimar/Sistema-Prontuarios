@@ -162,6 +162,33 @@ Depois acesse:
 
 Para deploy e checklist de producao, consulte `docs/DEPLOY.md`.
 
+## GitHub Pages
+
+O frontend pode ser publicado no GitHub Pages em modo standalone, sem backend e
+sem banco externo. Nesse modo, login e dados usam `localStorage` no navegador.
+
+Build local do Pages:
+
+```powershell
+cd frontend
+npm run build:pages
+```
+
+O workflow `.github/workflows/pages.yml` publica automaticamente o conteudo de
+`frontend/dist` quando houver push na branch `main`.
+
+No GitHub, ative:
+
+1. `Settings`
+2. `Pages`
+3. `Source: GitHub Actions`
+
+URL esperada:
+
+```text
+https://lucascaldass.github.io/Sistema-Prontuarios/
+```
+
 ## Rotas atuais
 
 - `GET /health`
@@ -287,6 +314,7 @@ python scripts/smoke_api.py
 ## Funcionalidades do frontend
 
 - Login com JWT.
+- Modo GitHub Pages standalone, com login e dados no `localStorage`.
 - Painel com contadores principais.
 - Relatorios gerenciais para `admin`, com periodo, totais, prescricoes, consultas e diagnosticos recorrentes.
 - Exportacao CSV dos relatorios gerenciais.

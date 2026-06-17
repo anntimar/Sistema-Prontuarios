@@ -63,6 +63,29 @@ $env:API_URL="http://127.0.0.1:8000"
 .\.venv\Scripts\python.exe scripts\smoke_api.py
 ```
 
+## GitHub Pages standalone
+
+Este e o caminho mais simples para demonstracao publica sem backend.
+
+1. Garanta que o GitHub Pages do repositorio esteja configurado para GitHub Actions:
+   `Settings > Pages > Source > GitHub Actions`.
+2. Faça push na branch `main`.
+3. O workflow `.github/workflows/pages.yml` executa `npm run build:pages`.
+4. O app publicado usa `VITE_STANDALONE=true`, ou seja, login e dados ficam no
+   `localStorage` do navegador de cada visitante.
+
+URL esperada:
+
+```text
+https://lucascaldass.github.io/Sistema-Prontuarios/
+```
+
+Limites desse modo:
+
+- Dados ficam apenas no navegador de quem acessa.
+- Cada visitante tem sua propria base de demonstracao.
+- Nao ha backend compartilhado nem banco central.
+
 ## Deploy em producao
 
 Uma separacao comum:
