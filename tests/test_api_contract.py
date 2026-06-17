@@ -92,11 +92,13 @@ class ApiContractTests(unittest.TestCase):
 
     def tearDown(self):
         get_settings.cache_clear()
+        os.environ.pop("DATA_BACKEND", None)
 
     def test_health_reports_missing_configuration(self):
-        os.environ.pop("SUPABASE_URL", None)
-        os.environ.pop("SUPABASE_KEY", None)
-        os.environ.pop("SECRET_KEY", None)
+        os.environ["DATA_BACKEND"] = "supabase"
+        os.environ["SUPABASE_URL"] = ""
+        os.environ["SUPABASE_KEY"] = ""
+        os.environ["SECRET_KEY"] = ""
         get_settings.cache_clear()
 
         response = self.client.get("/health")
@@ -149,8 +151,9 @@ class ApiContractTests(unittest.TestCase):
         self.assertEqual(body["error"]["details"][0]["ctx"]["error"], "Informe pelo menos um medicamento.")
 
     def test_missing_supabase_configuration_returns_clear_error(self):
-        os.environ.pop("SUPABASE_URL", None)
-        os.environ.pop("SUPABASE_KEY", None)
+        os.environ["DATA_BACKEND"] = "supabase"
+        os.environ["SUPABASE_URL"] = ""
+        os.environ["SUPABASE_KEY"] = ""
         os.environ["SECRET_KEY"] = "dev-secret-dev-secret-dev-secret-1234"
         get_settings.cache_clear()
         token = create_test_token()

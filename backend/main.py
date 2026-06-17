@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from backend.core.config import get_settings
 from backend.core.errors import register_error_handlers
@@ -47,6 +48,14 @@ def create_app() -> FastAPI:
     app.include_router(users.router, tags=["users"])
     app.include_router(reports.router, tags=["reports"])
     app.include_router(audit.router, tags=["audit"])
+
+    if settings.data_backend == "json":
+        settings.local_storage_dir.mkdir(parents=True, exist_ok=True)
+        app.mount(
+            "/local-storage",
+            StaticFiles(directory=settings.local_storage_dir),
+            name="local-storage",
+        )
 
     return app
 

@@ -10,23 +10,33 @@ No PowerShell, a partir da raiz do projeto:
 .\scripts\setup_dev.ps1
 ```
 
-Depois preencha o arquivo `.env` com as credenciais do Supabase:
+Depois crie o arquivo `.env`:
 
-```env
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua-chave-service-role-do-backend
-SECRET_KEY=troque-por-uma-chave-secreta-forte
-CLINICAL_ATTACHMENTS_BUCKET=clinical-attachments
+```powershell
+Copy-Item .env.example .env
 ```
+
+Por padrao o sistema usa `DATA_BACKEND=json`, criando uma base local em
+`backend/data/local_db.json`. Nao precisa de Supabase para demonstrar.
 
 ## Preparar banco
 
-No SQL Editor do Supabase, execute nesta ordem:
+No modo padrao JSON, a base nasce automaticamente a partir de
+`backend/data/local_seed.json`.
+
+Para restaurar a base de demonstracao:
+
+```powershell
+.\scripts\reset_local_data.ps1
+```
+
+Se optar por Supabase, configure `DATA_BACKEND=supabase` no `.env` e execute no
+SQL Editor do Supabase:
 
 1. `supabase/schema.sql`
 2. `supabase/seed.sql`
 
-Para atualizar um banco que ja existe, execute os arquivos de
+Para atualizar um banco Supabase que ja existe, execute os arquivos de
 `supabase/migrations` em ordem numerica antes de reaplicar o seed.
 
 ## Rodar localmente

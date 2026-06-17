@@ -1,12 +1,13 @@
 # Sistema-Prontuarios
 
-API para gestao de pacientes, prontuarios medicos, prescricoes, consultas e anexos clinicos.
+Sistema full stack para gestao de pacientes, prontuarios medicos, prescricoes, consultas e anexos clinicos.
+Por padrao ele roda com banco local em JSON, sem precisar criar Supabase nem configurar chaves.
 
 ## Stack atual
 
 - Python 3.12
 - FastAPI
-- Supabase
+- JSON local
 - JWT
 - bcrypt
 - React
@@ -21,7 +22,21 @@ Fluxo automatico recomendado:
 .\scripts\setup_dev.ps1
 ```
 
-Depois preencha o `.env` com suas credenciais do Supabase.
+O `.env.example` ja vem com `DATA_BACKEND=json`, que usa a base local em
+`backend/data/local_db.json`. A primeira execucao cria esse arquivo a partir de
+`backend/data/local_seed.json`.
+
+Para criar o `.env` local:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Para restaurar os dados de demonstracao:
+
+```powershell
+.\scripts\reset_local_data.ps1
+```
 
 Fluxo manual:
 
@@ -44,11 +59,12 @@ Copie o arquivo de exemplo de ambiente:
 Copy-Item .env.example .env
 ```
 
-Preencha o `.env` com as credenciais do Supabase e uma chave secreta:
+O modo local usa:
 
 ```env
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua-chave-service-role-do-backend
+DATA_BACKEND=json
+LOCAL_DATA_PATH=backend/data/local_db.json
+LOCAL_STORAGE_PATH=backend/data/storage
 SECRET_KEY=troque-por-uma-chave-secreta-forte
 JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRES_HOURS=8
@@ -57,18 +73,35 @@ ATTACHMENT_SIGNED_URL_EXPIRES_SECONDS=3600
 MAX_ATTACHMENT_SIZE_MB=10
 ```
 
-Use a chave `service_role` apenas no backend. Ela nao deve ser exposta em frontend.
+Supabase continua opcional. Para usar Supabase, altere `DATA_BACKEND=supabase` e
+preencha `SUPABASE_URL` e `SUPABASE_KEY`. Use a chave `service_role` apenas no
+backend. Ela nao deve ser exposta em frontend.
 
-## Banco de dados
+## Dados locais
 
-Os scripts do Supabase ficam em:
+O modo padrao grava os dados em:
+
+- `backend/data/local_db.json`
+- `backend/data/storage/`
+
+Esses arquivos sao locais e ficam fora do Git. Para reiniciar a demonstracao:
+
+```powershell
+.\scripts\reset_local_data.ps1
+```
+
+## Supabase opcional
+
+Os scripts do Supabase, caso voce queira usar banco gerenciado, ficam em:
 
 - `supabase/schema.sql`
 - `supabase/seed.sql`
 - `supabase/migrations/*.sql`
 
-Execute primeiro o `schema.sql` no SQL Editor do Supabase. Depois execute o `seed.sql`
-para criar usuarios e dados iniciais de desenvolvimento.
+No modo local em JSON, nao e necessario executar SQL.
+
+Se usar Supabase, execute primeiro o `schema.sql` no SQL Editor do Supabase. Depois
+execute o `seed.sql` para criar usuarios e dados iniciais de desenvolvimento.
 
 Se o banco ja existir, aplique as migrations em ordem numerica antes de rodar o
 seed novamente. Elas adicionam recursos incrementais sem precisar recriar a base.
@@ -228,7 +261,7 @@ Guia de operacao e demonstracao:
 - `docs/OPERACAO.md`
 - `docs/DEPLOY.md`
 
-Smoke test da API com Supabase configurado e backend rodando:
+Smoke test da API com backend rodando:
 
 ```powershell
 python scripts/smoke_api.py
@@ -244,14 +277,12 @@ python scripts/smoke_api.py
 
 ## Checklist ponta a ponta
 
-1. Rodar `supabase/schema.sql` no SQL Editor do Supabase.
-2. Rodar `supabase/seed.sql`.
-3. Copiar `.env.example` para `.env` e preencher `SUPABASE_URL`, `SUPABASE_KEY` e `SECRET_KEY`.
-4. Subir o backend com `.\scripts\run_backend.ps1`.
-5. Abrir `http://127.0.0.1:8000/health` e conferir `supabase_configured: true`.
-6. Rodar `python scripts/smoke_api.py`.
-7. Subir o frontend com `.\scripts\run_frontend.ps1`.
-8. Entrar em `http://127.0.0.1:5173` usando `medico@hospital.com` e `Medico@123`.
+1. Rodar `.\scripts\setup_dev.ps1`.
+2. Subir o backend com `.\scripts\run_backend.ps1`.
+3. Abrir `http://127.0.0.1:8000/health`.
+4. Rodar `python scripts/smoke_api.py`.
+5. Subir o frontend com `.\scripts\run_frontend.ps1`.
+6. Entrar em `http://127.0.0.1:5173` ou na porta indicada pelo Vite usando `medico@hospital.com` e `Medico@123`.
 
 ## Funcionalidades do frontend
 
@@ -288,15 +319,15 @@ python scripts/smoke_api.py
 ```text
 backend/
   core/        Configuracao, seguranca e tratamento de erros
-  database/    Cliente Supabase
+  database/    Cliente JSON local e adaptador Supabase opcional
   routes/      Rotas HTTP
   schemas/     Modelos Pydantic e validacoes
   services/    Regras de acesso a dados
   main.py      Ponto de entrada da aplicacao
 supabase/
-  schema.sql   Estrutura do banco
-  seed.sql     Dados iniciais para desenvolvimento
-  migrations/  Atualizacoes incrementais do banco
+  schema.sql   Estrutura opcional do banco Supabase
+  seed.sql     Dados iniciais opcionais para Supabase
+  migrations/  Atualizacoes incrementais opcionais
 tests/
   test_api_contract.py
 scripts/

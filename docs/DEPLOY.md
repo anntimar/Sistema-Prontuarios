@@ -1,12 +1,20 @@
 # Deploy do Sistema-Prontuarios
 
-Este guia cobre uma entrega simples e profissional usando Supabase como banco,
-FastAPI como backend e React estatico servido por Nginx.
+Este guia cobre uma entrega simples e profissional usando FastAPI como backend,
+React estatico servido por Nginx e banco local JSON por padrao. Supabase continua
+disponivel como backend opcional.
 
 ## Variaveis obrigatorias
 
-Backend:
+Backend local:
 
+- `DATA_BACKEND=json`
+- `SECRET_KEY` forte e exclusiva do ambiente
+- `FRONTEND_ORIGINS` com as URLs publicas do frontend separadas por virgula
+
+Backend Supabase:
+
+- `DATA_BACKEND=supabase`
 - `SUPABASE_URL`
 - `SUPABASE_KEY` com chave `service_role`
 - `SECRET_KEY` forte e exclusiva do ambiente
@@ -27,7 +35,7 @@ producao, gere uma nova imagem/build do frontend.
 Copy-Item .env.example .env
 ```
 
-2. Preencha `.env` com as credenciais reais do Supabase.
+2. Para rodar simples, mantenha `DATA_BACKEND=json`.
 
 3. Para o ambiente local com Docker, ajuste:
 
@@ -62,18 +70,16 @@ Uma separacao comum:
 - Backend em Render, Railway, Fly.io, VPS ou outro host que rode container.
 - Frontend em Nginx container, Vercel, Netlify, Cloudflare Pages ou outro host
   estatico.
-- Banco, Storage e autenticacao de dados no Supabase.
+- Banco local JSON para demonstracao simples ou Supabase para uma entrega com banco gerenciado.
 
 Passos recomendados:
 
-1. Aplicar `supabase/schema.sql` em um projeto Supabase novo.
-2. Aplicar as migrations de `supabase/migrations` em ordem numerica quando estiver atualizando uma base existente.
-3. Rodar `supabase/seed.sql` apenas em ambiente de demonstracao/desenvolvimento.
-4. Configurar `SECRET_KEY` forte no backend.
-5. Configurar `SUPABASE_KEY` somente no backend, nunca no frontend.
-6. Configurar `FRONTEND_ORIGINS` com o dominio HTTPS do frontend.
-7. Gerar o build do frontend com `VITE_API_URL` apontando para o dominio HTTPS da API.
-8. Validar `/health`, `/docs`, login e smoke test.
+1. Configurar `SECRET_KEY` forte no backend.
+2. Configurar `FRONTEND_ORIGINS` com o dominio HTTPS do frontend.
+3. Gerar o build do frontend com `VITE_API_URL` apontando para o dominio HTTPS da API.
+4. Validar `/health`, `/docs`, login e smoke test.
+5. Se usar Supabase, aplicar `supabase/schema.sql`, migrations e `seed.sql`.
+6. Se usar Supabase, configurar `SUPABASE_KEY` somente no backend, nunca no frontend.
 
 ## Checklist antes de apresentar
 
@@ -81,7 +87,7 @@ Passos recomendados:
 - `npm audit` sem vulnerabilidades conhecidas.
 - `/health` retornando `supabase_configured: true` e `secret_key_configured: true`.
 - Login funcionando para `admin`, `medico`, `farmaceutico` e `recepcao`.
-- Upload de anexo testado com bucket privado `clinical-attachments`.
+- Upload de anexo testado no storage local ou no bucket privado `clinical-attachments`.
 - Prescricao estruturada testada com baixa de estoque.
 - `FRONTEND_ORIGINS` sem `*` em producao.
 - `.env` fora do Git.

@@ -1,0 +1,174 @@
+{
+  "users": [
+    {
+      "id": "00000000-0000-0000-0000-000000000010",
+      "email": "admin@hospital.com",
+      "password_hash": "$2b$12$810O/073osR4GfJmc0w3Qeiihoy11MqgUO2QbacJqBL.HK56aDoUW",
+      "role": "admin",
+      "nome": "Administrador Padrao",
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "email": "medico@hospital.com",
+      "password_hash": "$2b$12$eInX1f8zoU0zY86qfrFc6OPiHLdgc9rmlho68s2VwYaTeOY80c0IS",
+      "role": "medico",
+      "nome": "Medico Padrao",
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "email": "farmacia@hospital.com",
+      "password_hash": "$2b$12$u0DfBerITdUBJv1oiJer6eO3MYbfcWhfijxf4JL23NivoXv/B5a.K",
+      "role": "farmaceutico",
+      "nome": "Farmacia Padrao",
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "email": "recepcao@hospital.com",
+      "password_hash": "$2b$12$lBcTba.t0/lgGH3.e2I6dOO7tGxZRqp8xyBU9d9vAi39SxuPtVasu",
+      "role": "recepcao",
+      "nome": "Recepcao Padrao",
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "pacientes": [
+    {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "nome": "Joao da Silva",
+      "cpf": "12345678900",
+      "data_nascimento": "1990-05-15",
+      "telefone": "82999999999",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000002",
+      "nome": "Maria Oliveira",
+      "cpf": "09876543211",
+      "data_nascimento": "1985-10-22",
+      "telefone": "82988888888",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "40000000-0000-0000-0000-000000000001",
+      "id_paciente": "10000000-0000-0000-0000-000000000001",
+      "id_medico": "00000000-0000-0000-0000-000000000001",
+      "scheduled_at": "2026-06-15T14:00:00+00:00",
+      "status": "Realizada",
+      "observacoes": "Consulta inicial de acompanhamento.",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "40000000-0000-0000-0000-000000000002",
+      "id_paciente": "10000000-0000-0000-0000-000000000002",
+      "id_medico": "00000000-0000-0000-0000-000000000001",
+      "scheduled_at": "2026-06-17T14:00:00+00:00",
+      "status": "Agendada",
+      "observacoes": "Retorno ambulatorial.",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "medical_records": [
+    {
+      "id": "20000000-0000-0000-0000-000000000001",
+      "id_paciente": "10000000-0000-0000-0000-000000000001",
+      "id_medico": "00000000-0000-0000-0000-000000000001",
+      "id_consulta": "40000000-0000-0000-0000-000000000001",
+      "anamnese": "Paciente relata dor de cabeca recorrente ha tres dias.",
+      "diagnostico": "Cefaleia tensional",
+      "observacoes": "Orientado repouso, hidratacao e retorno em caso de piora.",
+      "created_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": "30000000-0000-0000-0000-000000000001",
+      "id_prontuario": "20000000-0000-0000-0000-000000000001",
+      "medicamentos": [
+        "Dipirona 500mg a cada 6 horas se dor"
+      ],
+      "status": "Pendente",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "dispensed_at": null
+    }
+  ],
+  "prescription_items": [
+    {
+      "id": "70000000-0000-0000-0000-000000000001",
+      "id_prescricao": "30000000-0000-0000-0000-000000000001",
+      "id_medicamento": "60000000-0000-0000-0000-000000000001",
+      "quantidade": 1,
+      "posologia": "Tomar 1 comprimido a cada 6 horas se dor.",
+      "created_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "medications": [
+    {
+      "id": "60000000-0000-0000-0000-000000000001",
+      "nome": "Dipirona",
+      "apresentacao": "500mg",
+      "quantidade": 120,
+      "estoque_minimo": 20,
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "60000000-0000-0000-0000-000000000002",
+      "nome": "Ibuprofeno",
+      "apresentacao": "400mg",
+      "quantidade": 12,
+      "estoque_minimo": 15,
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    },
+    {
+      "id": "60000000-0000-0000-0000-000000000003",
+      "nome": "Amoxicilina",
+      "apresentacao": "500mg",
+      "quantidade": 40,
+      "estoque_minimo": 10,
+      "ativo": true,
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "medication_movements": [],
+  "clinical_attachments": [
+    {
+      "id": "50000000-0000-0000-0000-000000000001",
+      "id_paciente": "10000000-0000-0000-0000-000000000001",
+      "id_prontuario": "20000000-0000-0000-0000-000000000001",
+      "tipo": "Exame",
+      "titulo": "Hemograma de exemplo",
+      "arquivo_url": "https://example.com/exames/hemograma-exemplo.pdf",
+      "observacoes": "Arquivo demonstrativo para validar o fluxo de anexos clinicos.",
+      "storage_bucket": null,
+      "storage_path": null,
+      "file_name": null,
+      "content_type": null,
+      "file_size": null,
+      "uploaded_by": "00000000-0000-0000-0000-000000000001",
+      "uploaded_by_email": "medico@hospital.com",
+      "created_at": "2026-06-16T00:00:00+00:00",
+      "updated_at": "2026-06-16T00:00:00+00:00"
+    }
+  ],
+  "audit_logs": []
+}

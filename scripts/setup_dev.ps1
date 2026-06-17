@@ -49,5 +49,6 @@ if (-not $SkipNodeInstall) {
 
 Write-Host ""
 Write-Host "Setup concluido."
-Write-Host "Agora preencha o arquivo .env com SUPABASE_URL, SUPABASE_KEY e SECRET_KEY."
+Write-Host "O modo padrao usa DATA_BACKEND=json e roda sem Supabase."
+Write-Host "Se quiser, ajuste apenas SECRET_KEY no .env antes de uma entrega."
 Write-Host "Depois execute scripts/run_backend.ps1 e scripts/run_frontend.ps1 em terminais separados."
